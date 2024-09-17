@@ -1,0 +1,41 @@
+{
+  "name": "welcome-recent-projects",
+  "displayName": "Welcom Recent Projects",
+  "description": "Show recent projects in a new tab, only on a new window.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lstasi/welcome-recent-project-ext.git"},
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.showRecentProjects",
+        "title": "Show Recent Projects"
+      }
+    ],
+    "viewsWelcome": [
+      {
+        "view": "explorer",
+        "contents": "## Welcome to Recent Projects\n\n[Show Recent Projects](command:extension.showRecentProjects)",
+        "when": "explorerViewletVisible"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile",
+    "test": "npm run compile && node ./out/test/runTest"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3",
+    "vscode": "^1.1.37"
+  }
+}
