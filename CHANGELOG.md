@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [unreleased]
+
+## [0.1.0]
 
 - Update package.json
 - Update README.md
