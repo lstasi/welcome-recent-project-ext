@@ -2,6 +2,8 @@
   "name": "welcome-recent-projects",
   "displayName": "Welcom Recent Projects",
   "description": "Show recent projects in a new tab, only on a new window.",
+  "license": "MIT",
+  "author": "Leandro Stasi",
   "repository": {
     "type": "git",
     "url": "git@github.com:lstasi/welcome-recent-project-ext.git"},
