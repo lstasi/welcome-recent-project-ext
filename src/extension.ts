@@ -31,6 +31,11 @@ export function activate(context: vscode.ExtensionContext) {
                     case 'openProject':
                         openProject(message.project);
                         return;
+                    case 'deleteProject':
+                        deleteProject(message.project, context);
+                        return;
+                    default:
+                        return;
                 }
             },
             undefined,
@@ -62,6 +67,14 @@ export function activate(context: vscode.ExtensionContext) {
 function openProject(project: string) {
     outputChannel.appendLine(`Opening project: ${project}`);
     vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(project), true);
+}
+
+
+function deleteProject(project: string, context: vscode.ExtensionContext) {
+    outputChannel.appendLine(`Deleting project: ${project}`);
+    let recentProjects: Map<string, {}> = getRecentProjects(context);
+    recentProjects.delete(project);
+    setRecentProjects(recentProjects);
 }
 
 function getRecentProjects(context: vscode.ExtensionContext): Map<string, {}> {
@@ -108,10 +121,10 @@ function getWebviewContent(projects: Map<string, {}>, context: vscode.ExtensionC
             const projectParts = projectPath.split('/').map((part: string) => part.trim());
             const formattedProject = projectParts.join('<br>');
             return `
-            <div class="button-container">
+            <div class="button-container" id="${key}">
                 <button class="button-link" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
-            </div>
-        `;
+                <button class="delete-button" onclick="deleteProject('${key}')">🗑️</button>
+            </div>`;
         }).join('')
     let content = fs.readFileSync(path.join(context.extensionPath, "view", "recentProjects.html"), "utf8")
         .replace("{{projects}}", projectsHTML)

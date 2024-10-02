@@ -23,3 +23,10 @@
 .button-link:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
 }
+.delete-button {
+    padding-top: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    float: right; /* Aligns the button to the right */
+}
