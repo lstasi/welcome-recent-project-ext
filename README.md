@@ -14,6 +14,31 @@
 
 ## Description
 
-This extension opens when Visual Studio Code is started, displaying a list of recent projects. The list is generated from a JSON file named `recentFolders.json` located in the `.vscode` directory.
+This extension opens when Visual Studio Code is started, displaying a list of recent projects.
+
+The list is generated from a JSON file named `recentFolders.json` located in the `.vscode` directory.
+
 If Visual Studio Code is started on a folder, this is added to the list of recent projects and the welcome tab is not shown.
 
+
+## Screenshot
+
+![Screenshot](https://raw.githubusercontent.com/lstasi/welcome-recent-project-ext/main/images/screenshot.png)
+
+## Features
+
+- List of recent projects
+- Open selected project in a new window
+- Remove project from the list
+
+## To Do
+
+- Pin projects to the list so they always appear on top
+- Move projects up and down in the list
+- Add option to remove all projects from the list
+
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://raw.githubusercontent.com/lstasi/welcome-recent-project-ext/main/LICENSE) file for details.

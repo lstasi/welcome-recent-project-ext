@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.6]
+   Add screenshots to README.md
+   Update README.md
+
+## [0.1.5]
+
+* Enhanced CSS styles for improved visual appeal.
+* Introduced a glowing effect on buttons with smooth transitions.
+* Added a pulsating subtle glow animation option.
+* Updated extension.ts file to reflect new button design.
+* Improved user interface elements with intuitive interactions.
+
 ## [0.1.4]
 - We added a delete button with a trash icon for easy project removal!
 - Enhanced styling with a hover effect on buttons for better user experience.
