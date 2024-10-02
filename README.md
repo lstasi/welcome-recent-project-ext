@@ -41,4 +41,4 @@ If Visual Studio Code is started on a folder, this is added to the list of recen
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://raw.githubusercontent.com/lstasi/welcome-recent-project-ext/main/LICENSE) file for details.

@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.6]
+   Add screenshots to README.md
+   Update README.md
+
 ## [0.1.5]
 
 * Enhanced CSS styles for improved visual appeal.
