@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {{styles}}
+</head>
+<body>
+    <h1>Recent Projects</h1>
+    <div style="display: flex; flex-wrap: wrap;">
+        {{projects}}
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        function openProject(project) {
+            vscode.postMessage({
+                command: 'openProject',
+                project: project
+            });
+        }
+    </script>
+</body>
+</html>

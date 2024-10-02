@@ -1,6 +1,19 @@
 # Changelog
 
-## [unreleased]
+## [0.1.3]
+* Upgraded getWebviewContent function to accept vscode.ExtensionContext as an argument for enhanced flexibility.
+* Introduced a CSS styles file (styles.css) for consistent visual styling across the webview content.
+* Updated getWebviewContent function to use the new CSS styles file, improving overall appearance.
+* Enhanced recent projects display with improved button design and hover effects.
+* Added functionality to open project links in VS Code using acquireVsCodeApi and postMessage methods.
+* Improved code organization by splitting functionality into separate files (styles.css and recentProjects.html).
+* Removed redundant code and updated comments for better readability.
+
+## [0.1.2]
+- Update categories, tags, keyword and description in package.json
+
+## [0.1.1]
+- Update README.md
 
 ## [0.1.0]
 

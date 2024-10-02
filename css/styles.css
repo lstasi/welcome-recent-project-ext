@@ -1,0 +1,25 @@
+.button-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+}
+.button-link {
+    width: 150px; /* Set the width of the button */
+    height: 150px; /* Set the height of the button */
+    display: flex;
+    align-items: flex-start; /* Align items at the start vertically */
+    justify-content: flex-start; /* Align items at the start horizontally */
+    text-align: left; /* Align text to the left */
+    padding: 10px; /* Add padding for better text alignment */
+    background-color: transparent;
+    border: 1px solid #ccc;
+    color: #ccc; /* Set the font color to match the border */
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap; /* Allow multi-line text */
+    word-wrap: break-word; /* Break words if necessary */
+}
+.button-link:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
+}
