@@ -16,6 +16,17 @@
                 project: project
             });
         }
+
+        function deleteProject(project) {
+            const projectDiv = document.getElementById(project);
+            if (projectDiv) {
+                projectDiv.remove();
+            }
+            vscode.postMessage({
+                command: 'deleteProject',
+                project: project
+            });
+        }
     </script>
 </body>
 </html>

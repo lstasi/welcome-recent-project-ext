@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4]
+- We added a delete button with a trash icon for easy project removal!
+- Enhanced styling with a hover effect on buttons for better user experience.
+- Introduced a `deleteProject` function in the extension.ts file for seamless deletion.
+- Updated the recentProjects.html view to include a delete button and JavaScript functionality.
+- Improved code organization with added padding, transparent background, and cursor pointer styles.
+
+
 ## [0.1.3]
 * Upgraded getWebviewContent function to accept vscode.ExtensionContext as an argument for enhanced flexibility.
 * Introduced a CSS styles file (styles.css) for consistent visual styling across the webview content.
