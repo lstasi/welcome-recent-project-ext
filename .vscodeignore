@@ -1,0 +1,9 @@
+.vscode/
+node_modules/
+*.log
+*.tmp
+*.tsbuildinfo
+dist/
+coverage/
+test/
+dependabot.yml
