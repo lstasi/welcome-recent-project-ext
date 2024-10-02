@@ -17,7 +17,3 @@
 This extension opens when Visual Studio Code is started, displaying a list of recent projects. The list is generated from a JSON file named `recentFolders.json` located in the `.vscode` directory.
 If Visual Studio Code is started on a folder, this is added to the list of recent projects and the welcome tab is not shown.
 
-## License
-
-The [MIT License](LICENSE)
-
