@@ -1,0 +1,52 @@
+# Node.js dependencies
+node_modules/
+
+# VS Code directory
+.vscode/
+
+# Output directories
+out/
+dist/
+lib/
+
+# Logs
+logs/
+*.log
+
+# Dependency directories for native modules
+bin/
+obj/
+
+# Typescript cache
+*.tsbuildinfo
+
+# Coverage directory used by testing tools
+coverage/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Optional npm cache directory
+.npm/
+
+# Yarn cache directory
+.yarn/
+
+# dotenv environment variables files (if used for secrets)
+.env
+.env.local
+.env.*.local
+
+# VS Code extension packaging files
+*.vsix
+*.vscode-test
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Optional build cache
+.cache/
