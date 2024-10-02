@@ -5,6 +5,23 @@
   "license": "MIT",
   "author": "Leandro Stasi",
   "publisher": "LeandroStasi",
+  "categories": [
+    "Visualization",
+    "Extension Packs",
+    "Other"
+  ],
+  "keywords": [
+    "welcome page",
+    "recent",
+    "projects",
+    "folders"
+  ],
+  "tags": [
+    "welcome page",
+    "recent",
+    "projects",
+    "folders"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:lstasi/welcome-recent-project-ext.git"
