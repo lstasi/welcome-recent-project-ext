@@ -1,12 +1,22 @@
 {
   "name": "welcome-recent-projects",
-  "displayName": "Welcom Recent Projects",
+  "displayName": "Welcome Recent Projects",
   "description": "Show recent projects in a new tab, only on a new window.",
   "license": "MIT",
   "author": "Leandro Stasi",
+  "publisher": "LeandroStasi",
   "repository": {
     "type": "git",
-    "url": "git@github.com:lstasi/welcome-recent-project-ext.git"},
+    "url": "git@github.com:lstasi/welcome-recent-project-ext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lstasi/welcome-recent-project-ext/issues"
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
