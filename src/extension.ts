@@ -122,7 +122,7 @@ function getWebviewContent(projects: Map<string, {}>, context: vscode.ExtensionC
             const formattedProject = projectParts.join('<br>');
             return `
             <div class="button-container" id="${key}">
-                <button class="button-link" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
+                <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
                 <button class="delete-button" onclick="deleteProject('${key}')">🗑️</button>
             </div>`;
         }).join('')

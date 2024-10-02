@@ -30,3 +30,24 @@
     cursor: pointer;
     float: right; /* Aligns the button to the right */
 }
+/* Default button state */
+.glow-effect-btn {
+    border: 2px solid #fff; /* Normal white border */
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* On hover: subtle red glowing border */
+.glow-effect-btn:hover {
+    border-color: #ff4444; /* A more subtle red color for the border */
+    box-shadow: 0 0 4px #ff4444, 0 0 8px #ff4444; /* Less intense, subtler glow effect */
+}
+
+/* Optional: Pulsating subtle glow animation */
+@keyframes glow-animation {
+    from {
+        box-shadow: 0 0 6px #ff4444, 0 0 10px #ff4444;
+    }
+    to {
+        box-shadow: 0 0 10px #ff4444, 0 0 14px #ff4444;
+    }
+}
