@@ -34,7 +34,7 @@
     "color": "#C80000",
     "theme": "dark"
   },
-  "version": "0.1.6",
+  "version": "0.1.7",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -64,7 +64,8 @@
     "test": "npm run compile && node ./out/test/runTest"
   },
   "devDependencies": {
-    "typescript": "^5.6.2",
-    "vscode": "^1.1.37"
+    "@types/node": "^22.10.5",
+    "@types/vscode": "^1.75.0",
+    "typescript": "^5.7.3"
   }
 }
