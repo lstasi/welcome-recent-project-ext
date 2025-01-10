@@ -5,8 +5,10 @@ import * as vscode from 'vscode';
 
 
 let outputChannel: vscode.OutputChannel;
+let context: vscode.ExtensionContext;
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context_in: vscode.ExtensionContext) {
+    context = context_in;
     outputChannel = vscode.window.createOutputChannel('Recent Projects');
     context.subscriptions.push(outputChannel);
 
@@ -20,8 +22,8 @@ export function activate(context: vscode.ExtensionContext) {
                 enableScripts: true // Enable JavaScript in the webview
             }
         );
-        const projects = getRecentProjects(context);
-        const content = getWebviewContent(projects, context);
+        const projects = getRecentProjects();
+        const content = getWebviewContent(projects);
         panel.webview.html = content;
 
         // Handle messages from the webview
@@ -32,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
                         openProject(message.project);
                         return;
                     case 'deleteProject':
-                        deleteProject(message.project, context);
+                        deleteProject(message.project);
                         return;
                     default:
                         return;
@@ -50,13 +52,13 @@ export function activate(context: vscode.ExtensionContext) {
         outputChannel.appendLine(`Adding workspace to recent projects: ${workspaceFolder.uri.fsPath}`);
 
         // Retrieve existing recent projects hash list from global state
-        let recentProjects: Map<string, {}> = getRecentProjects(context);
+        let recentProjects: Map<string, {}> = getRecentProjects();
 
         // Add the current workspace to the recent projects with the uri as key
         recentProjects.set(workspaceFolder.uri.fsPath, {});
 
         // Update the global state with the new list of recent projects
-        setRecentProjects(recentProjects);
+        setRecentProjects(recentProjects, context);
     } else {
         // Execute the command when the extension is activated
         vscode.commands.executeCommand('extension.showRecentProjects');
@@ -70,18 +72,16 @@ function openProject(project: string) {
 }
 
 
-function deleteProject(project: string, context: vscode.ExtensionContext) {
+function deleteProject(project: string) {
     outputChannel.appendLine(`Deleting project: ${project}`);
-    let recentProjects: Map<string, {}> = getRecentProjects(context);
+    let recentProjects: Map<string, {}> = getRecentProjects();
     recentProjects.delete(project);
-    setRecentProjects(recentProjects);
+    setRecentProjects(recentProjects, context);
 }
 
-function getRecentProjects(context: vscode.ExtensionContext): Map<string, {}> {
+function getRecentProjects(): Map<string, {}> {
     outputChannel.appendLine("Fetching recent projects...");
-    const homeDir = os.homedir();
-    const vscodeDir = path.join(homeDir, '.vscode');
-    const recentFoldersFile = path.join(vscodeDir, 'recentFolders.json');
+    const recentFoldersFile = getRecentFoldersFile();
 
     if (fs.existsSync(recentFoldersFile)) {
         const data = fs.readFileSync(recentFoldersFile, 'utf8');
@@ -92,16 +92,9 @@ function getRecentProjects(context: vscode.ExtensionContext): Map<string, {}> {
         return new Map();
     }
 }
-function setRecentProjects(recentProjects: Map<string, {}>) {
+function setRecentProjects(recentProjects: Map<string, {}>, context: vscode.ExtensionContext) {
     outputChannel.appendLine("Setting recent projects...");
-    const homeDir = os.homedir();
-    const vscodeDir = path.join(homeDir, '.vscode');
-    const recentFoldersFile = path.join(vscodeDir, 'recentFolders.json');
-
-    // Ensure the .vscode directory exists
-    if (!fs.existsSync(vscodeDir)) {
-        fs.mkdirSync(vscodeDir);
-    }
+    const recentFoldersFile = getRecentFoldersFile();
 
     // Convert the Map to an array of key-value pairs
     const recentProjectsArray = Array.from(recentProjects.entries());
@@ -112,20 +105,48 @@ function setRecentProjects(recentProjects: Map<string, {}>) {
     outputChannel.appendLine(`Recent projects saved to ${recentFoldersFile}`);
 }
 
-function getWebviewContent(projects: Map<string, {}>, context: vscode.ExtensionContext): string {
+function getRecentFoldersFile(): string {
+    const userDataDir = context.globalStorageUri.fsPath;
+    if (!fs.existsSync(userDataDir)) {
+        fs.mkdirSync(userDataDir, { recursive: true });
+    }
+    const recentFoldersFile = path.join(userDataDir, 'recentFolders.json');
+    outputChannel.appendLine(`Recent folders file: ${recentFoldersFile}`);
+    return recentFoldersFile;
+}
+function generateProjectsHtml(projects: Map<string, {}>): string {
+    const project_list = Array.from(projects.keys()).map(key => {
+        const projectPath = key.startsWith('~') ? key.slice(1) : key;
+        const projectParts = projectPath.split('/').map((part: string) => part.trim());
+        const formattedProject = projectParts.join('<br>');
+        return `
+        <div class="button-container" id="${key}">
+            <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
+            <button class="delete-button" onclick="deleteProject('${key}')">🗑️</button>
+        </div>`;
+    }).join('');
+    return `<div style="display: flex; flex-wrap: wrap;">
+            ${project_list}
+        </div>`;
+}
+
+function getWebviewContent(projects: Map<string, {}>): string {
     outputChannel.appendLine("Generating webview content...");
     const css = fs.readFileSync(path.join(context.extensionPath, "css", "styles.css"), "utf8")
-    let projectsHTML =
-        Array.from(projects.keys()).map(key => {
-            const projectPath = key.startsWith('~') ? key.slice(1) : key;
-            const projectParts = projectPath.split('/').map((part: string) => part.trim());
-            const formattedProject = projectParts.join('<br>');
-            return `
-            <div class="button-container" id="${key}">
-                <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
-                <button class="delete-button" onclick="deleteProject('${key}')">🗑️</button>
-            </div>`;
-        }).join('')
+    
+    const firstFive = generateProjectsHtml(new Map([...projects].slice(0, 5)));
+    
+    // Get all projects sorted alphabetically
+    const allSorted = generateProjectsHtml(new Map([...projects].sort((a, b) => a[0].localeCompare(b[0]))));
+
+    const projectsHTML = `
+            <h2>Latest Projects</h2>
+            ${firstFive}
+            <br />
+            <hr />
+            <h2>All Projects</h2>
+            ${allSorted}
+    `;
     let content = fs.readFileSync(path.join(context.extensionPath, "view", "recentProjects.html"), "utf8")
         .replace("{{projects}}", projectsHTML)
         .replace("{{styles}}", `<style>${css}</style>`);
