@@ -5,8 +5,8 @@
 * Add Latest Project and All Project, sorted alphabetically.
 
 ## [0.1.6]
-   Add screenshots to README.md
-   Update README.md
+*  Add screenshots to README.md
+*  Update README.md
 
 ## [0.1.5]
 
