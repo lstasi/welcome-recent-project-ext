@@ -31,7 +31,7 @@ export function activate(context_in: vscode.ExtensionContext) {
             message => {
                 switch (message.command) {
                     case 'openProject':
-                        openProject(message.project);
+                        openProject(message.project, message.newWindow);
                         return;
                     case 'deleteProject':
                         deleteProject(message.project);
@@ -66,11 +66,10 @@ export function activate(context_in: vscode.ExtensionContext) {
 
 }
 
-function openProject(project: string) {
-    outputChannel.appendLine(`Opening project: ${project}`);
-    vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(project), true);
+function openProject(project: string, newWindow: boolean = false) {
+    outputChannel.appendLine(`Opening project: ${project} in ${newWindow ? 'new' : 'current'} window.`);
+    vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(project), newWindow);
 }
-
 
 function deleteProject(project: string) {
     outputChannel.appendLine(`Deleting project: ${project}`);
@@ -122,7 +121,8 @@ function generateProjectsHtml(projects: Map<string, {}>): string {
         return `
         <div class="button-container" id="${key}">
             <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
-            <button class="delete-button" onclick="deleteProject('${key}')">🗑️</button>
+            <button class="small-button" onclick="openProject('${key}', true)">↗️</button>
+            <button class="small-button" onclick="deleteProject('${key}')">🗑️</button>
         </div>`;
     }).join('');
     return `<div style="display: flex; flex-wrap: wrap;">
@@ -133,9 +133,9 @@ function generateProjectsHtml(projects: Map<string, {}>): string {
 function getWebviewContent(projects: Map<string, {}>): string {
     outputChannel.appendLine("Generating webview content...");
     const css = fs.readFileSync(path.join(context.extensionPath, "css", "styles.css"), "utf8")
-    
+
     const firstFive = generateProjectsHtml(new Map([...projects].slice(0, 5)));
-    
+
     // Get all projects sorted alphabetically
     const allSorted = generateProjectsHtml(new Map([...projects].sort((a, b) => a[0].localeCompare(b[0]))));
 

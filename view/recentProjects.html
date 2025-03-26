@@ -8,10 +8,11 @@
         {{projects}}
     <script>
         const vscode = acquireVsCodeApi();
-        function openProject(project) {
+        function openProject(project, newWindow = false) {
             vscode.postMessage({
                 command: 'openProject',
-                project: project
+                project: project,
+                newWindow: newWindow
             });
         }
 

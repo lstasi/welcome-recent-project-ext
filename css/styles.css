@@ -23,7 +23,7 @@
 .button-link:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
 }
-.delete-button {
+.small-button {
     padding-top: 10px;
     background-color: transparent;
     border: none;
