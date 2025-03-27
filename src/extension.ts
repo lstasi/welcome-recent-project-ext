@@ -51,11 +51,17 @@ export function activate(context_in: vscode.ExtensionContext) {
         const workspaceFolder = vscode.workspace.workspaceFolders[0];
         outputChannel.appendLine(`Adding workspace to recent projects: ${workspaceFolder.uri.fsPath}`);
 
+        // Extract projectName and projectPath
+        const projectPath = workspaceFolder.uri.fsPath;
+        const projectParts = projectPath.split('/').map((part: string) => part.trim());
+        const projectName = projectParts.pop();
+        const projectFolder = projectParts.join('/');
+
         // Retrieve existing recent projects hash list from global state
         let recentProjects: Map<string, {}> = getRecentProjects();
 
         // Add the current workspace to the recent projects with the uri as key
-        recentProjects.set(workspaceFolder.uri.fsPath, { lastUsed: Date.now() });
+        recentProjects.set(projectPath, { projectName: projectName, projectFolder: projectFolder, lastUsed: Date.now() });
 
         // Update the global state with the new list of recent projects
         setRecentProjects(recentProjects, context);
@@ -117,10 +123,12 @@ function generateProjectsHtml(projects: Map<string, {}>): string {
     const project_list = Array.from(projects.keys()).map(key => {
         const projectPath = key.startsWith('~') ? key.slice(1) : key;
         const projectParts = projectPath.split('/').map((part: string) => part.trim());
-        const formattedProject = projectParts.join('<br>');
+        const projectName = projectParts.pop();
+        const projectFolder = projectParts.join('/');
         return `
         <div class="button-container" id="${key}">
-            <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${formattedProject}</button>
+            <div class="project-path">${projectFolder}</div>
+            <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${projectName}</button>
             <button class="small-button" onclick="openProject('${key}', true)">↗️</button>
             <button class="small-button" onclick="deleteProject('${key}')">🗑️</button>
         </div>`;
@@ -134,7 +142,7 @@ function getWebviewContent(projects: Map<string, {}>): string {
     outputChannel.appendLine("Generating webview content...");
     const css = fs.readFileSync(path.join(context.extensionPath, "css", "styles.css"), "utf8")
 
-    const firstFive = generateProjectsHtml(new Map([...projects].sort((a, b) => (b[1] as any).lastUsed - (a[1] as any).lastUsed).slice(0, 7)));
+    const firstFive = generateProjectsHtml(new Map([...projects].sort((a, b) => (b[1] as any).lastUsed - (a[1] as any).lastUsed).slice(0, 5)));
 
     // Get all projects sorted alphabetically
     const allSorted = generateProjectsHtml(new Map([...projects].sort((a, b) => a[0].localeCompare(b[0]))));

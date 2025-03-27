@@ -1,27 +1,33 @@
 .button-container {
-    border: 1px solid #ccc;
+    border: 1px solid;
     padding: 10px;
     margin: 10px;
 }
 .button-link {
     width: 150px; /* Set the width of the button */
-    height: 150px; /* Set the height of the button */
+    height: 100px; /* Set the height of the button */
     display: flex;
-    align-items: flex-start; /* Align items at the start vertically */
-    justify-content: flex-start; /* Align items at the start horizontally */
-    text-align: left; /* Align text to the left */
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    text-align: center; /* Center-align text */
     padding: 10px; /* Add padding for better text alignment */
     background-color: transparent;
-    border: 1px solid #ccc;
+    border: 1px solid; /* Add a border */
     color: #ccc; /* Set the font color to match the border */
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre-wrap; /* Allow multi-line text */
     word-wrap: break-word; /* Break words if necessary */
+    font-size: large; /* Set the font size */
 }
 .button-link:hover {
     background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
+}
+.project-path {
+    padding: 5px; /* Add padding for better text alignment */
+    font-size: small; /* Set the font size */
+    color: #999; /* Set the font color */
 }
 .small-button {
     padding-top: 10px;
@@ -32,7 +38,6 @@
 }
 /* Default button state */
 .glow-effect-btn {
-    border: 2px solid #fff; /* Normal white border */
     transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition */
 }
 
