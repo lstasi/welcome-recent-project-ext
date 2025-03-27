@@ -55,7 +55,7 @@ export function activate(context_in: vscode.ExtensionContext) {
         let recentProjects: Map<string, {}> = getRecentProjects();
 
         // Add the current workspace to the recent projects with the uri as key
-        recentProjects.set(workspaceFolder.uri.fsPath, {});
+        recentProjects.set(workspaceFolder.uri.fsPath, { lastUsed: Date.now() });
 
         // Update the global state with the new list of recent projects
         setRecentProjects(recentProjects, context);
@@ -134,7 +134,7 @@ function getWebviewContent(projects: Map<string, {}>): string {
     outputChannel.appendLine("Generating webview content...");
     const css = fs.readFileSync(path.join(context.extensionPath, "css", "styles.css"), "utf8")
 
-    const firstFive = generateProjectsHtml(new Map([...projects].slice(0, 5)));
+    const firstFive = generateProjectsHtml(new Map([...projects].sort((a, b) => (b[1] as any).lastUsed - (a[1] as any).lastUsed).slice(0, 7)));
 
     // Get all projects sorted alphabetically
     const allSorted = generateProjectsHtml(new Map([...projects].sort((a, b) => a[0].localeCompare(b[0]))));
