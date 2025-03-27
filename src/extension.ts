@@ -53,9 +53,7 @@ export function activate(context_in: vscode.ExtensionContext) {
 
         // Extract projectName and projectPath
         const projectPath = workspaceFolder.uri.fsPath;
-        const projectParts = projectPath.split('/').map((part: string) => part.trim());
-        const projectName = projectParts.pop();
-        const projectFolder = projectParts.join('/');
+        const { projectName, projectFolder } = extractProjectDetails(projectPath);
 
         // Retrieve existing recent projects hash list from global state
         let recentProjects: Map<string, {}> = getRecentProjects();
@@ -122,15 +120,13 @@ function getRecentFoldersFile(): string {
 function generateProjectsHtml(projects: Map<string, {}>): string {
     const project_list = Array.from(projects.keys()).map(key => {
         const projectPath = key.startsWith('~') ? key.slice(1) : key;
-        const projectParts = projectPath.split('/').map((part: string) => part.trim());
-        const projectName = projectParts.pop();
-        const projectFolder = projectParts.join('/');
+        const { projectName, projectFolder } = extractProjectDetails(projectPath);
         return `
         <div class="button-container" id="${key}">
             <div class="project-path">${projectFolder}</div>
             <button class="button-link glow-effect-btn" title="${key}" aria-label="${key}" onclick="openProject('${key}')">${projectName}</button>
-            <button class="small-button" onclick="openProject('${key}', true)">↗️</button>
             <button class="small-button" onclick="deleteProject('${key}')">🗑️</button>
+            <button class="small-button" onclick="openProject('${key}', true)">↗️</button>
         </div>`;
     }).join('');
     return `<div style="display: flex; flex-wrap: wrap;">
@@ -160,6 +156,13 @@ function getWebviewContent(projects: Map<string, {}>): string {
         .replace("{{styles}}", `<style>${css}</style>`);
     outputChannel.appendLine("Webview content generated.");
     return content;
+}
+
+function extractProjectDetails(projectPath: string): { projectName: string, projectFolder: string } {
+    const projectParts = projectPath.split('/').map((part: string) => part.trim());
+    const projectName = projectParts.pop() || '';
+    const projectFolder = projectParts.join('/');
+    return { projectName, projectFolder };
 }
 
 export function deactivate() { }
