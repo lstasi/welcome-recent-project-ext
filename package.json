@@ -64,7 +64,7 @@
     "test": "npm run compile && node ./out/test/runTest"
   },
   "devDependencies": {
-    "@types/node": "^22.10.5",
+    "@types/node": "^25.0.9",
     "@types/vscode": "^1.75.0",
     "typescript": "^5.7.3"
   }
